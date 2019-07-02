@@ -6,6 +6,7 @@
 </head>
 
 <body>
+	<video id='player' controls></video>
 	<div id='devices'></div>
 	<div id='errors' style="color:red"></div>
 </body>
@@ -18,7 +19,7 @@
 	// var ctx = canvas.getContext('2d');
 	var handleSuccess = function(stream) 
 	{
-		// player.srcObject = stream;
+		player.srcObject = stream;
 		// ctx.drawImage(player, 0, 0);
 	};
 
