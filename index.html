@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>App</title>
+</head>
+
+<body>
+	<div id='devices'></div>
+	<div id='errors' style="color:red"></div>
+</body>
+
+<script type="text/javascript">
+	var e_devices = document.getElementById('devices');
+	var e_errors = document.getElementById('errors');
+	var player = document.getElementById('player');
+	// var canvas = document.getElementById('view');
+	// var ctx = canvas.getContext('2d');
+	var handleSuccess = function(stream) 
+	{
+		// player.srcObject = stream;
+		// ctx.drawImage(player, 0, 0);
+	};
+
+	var add_device = function(device)
+	{
+		console.log(device);	
+		var para = document.createElement('p');
+		var content = document.createTextNode(device.kind);
+		para.appendChild(content);
+		e_devices.appendChild(para);		
+	};
+
+	var add_error = function(err)
+	{
+		console.log(err);
+		var para = document.createElement('p');
+		var content = document.createTextNode(err);
+		para.appendChild(content);
+		e_errors.appendChild(para);
+	};
+
+	navigator.mediaDevices.enumerateDevices().then((devices) => 
+	{
+		devices.forEach(add_device)
+	});
+
+	setTimeout(function ()
+	{
+		Notification.requestPermission(function(result)
+		{
+			add_error(result);
+
+			if (result !== 'denied' && result !== 'default')
+			{
+				navigator.mediaDevices.getUserMedia({audio: true, video: true})
+					.then(handleSuccess)
+					.catch(add_error);
+			}
+		})
+	}, 2000);
+
+</script>
+
+</html>
