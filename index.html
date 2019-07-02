@@ -40,10 +40,17 @@
 		e_errors.appendChild(para);
 	};
 
-	navigator.mediaDevices.enumerateDevices().then((devices) => 
+	if (navigator.mediaDevices)
 	{
-		devices.forEach(add_device)
-	});
+		navigator.mediaDevices.enumerateDevices().then((devices) => 
+		{
+			devices.forEach(add_device)
+		});
+	}
+	else
+	{
+		add_error("site cannot access media devices");
+	}
 
 	setTimeout(function ()
 	{
